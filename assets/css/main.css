@@ -1,0 +1,46 @@
+@font-face {
+    font-family: FG;
+    src: url('/assets/fonts/franklingothic.ttf');
+    font-weight: medium;
+    font-style: normal;
+}
+
+:root {
+    --blk: #121212;
+    --wht: #f1f1f1;
+}
+
+body {
+    background-color: var(--blk);
+    color: var(--wht);
+    padding: 1vw;
+
+    font-family: FG;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    letter-spacing: 0.025em;
+}
+
+p,
+h1,
+h2,
+h3,
+h4 {
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+/* DRAW */
+
+.draw-canvas {
+    position: fixed;
+    z-index: 500;
+    top: 0;
+    left: 0;
+  
+    -ms-touch-action: none;
+    touch-action: none;
+    
+    cursor: crosshair !important;
+  }

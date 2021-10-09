@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interact Test</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <h1>
+        Click anywhere to draw
+    </h1>
+    <canvas class="draw-canvas"></canvas>
+</body>
+
+<!-- INTERACT -->
+<script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+
+<!-- INTERACT CANVAS -->
+<script>
+
+    var pixelSize = 36;
+
+    interact(".draw-canvas")
+    .origin("self")
+    .draggable({
+        max: Infinity,
+        maxPerElement: Infinity,
+        modifiers: [
+        interact.modifiers.snap({
+            // snap to the corners of a grid
+            targets: [
+            interact.snappers.grid({ x: pixelSize, y: pixelSize })
+            ],
+        })
+        ],
+        listeners: {
+        // draw colored squares on move
+        move: function(event) {
+            var context = event.target.getContext("2d"),
+            // calculate the angle of the drag direction
+            dragAngle = 180 * Math.atan2(event.dx, event.dy) / Math.PI;
+
+            // set color based on drag angle and speed
+            context.fillStyle =
+            "#fba637";
+
+            // draw squares
+            context.fillRect(
+            event.pageX - pixelSize / 2,
+            event.pageY - pixelSize / 2,
+            pixelSize,
+            pixelSize
+            );
+        }
+        }
+    })
+    // clear the canvas on doubletap
+    .on("doubletap", function(event) {
+        var context = event.target.getContext("2d");
+
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    });
+
+    function resizeCanvases() {
+    [].forEach.call(document.querySelectorAll(".draw-canvas"), function(
+        canvas
+    ) {
+        canvas.width = document.body.clientWidth;
+        canvas.height = window.innerHeight;
+    });
+    }
+
+    // interact.js can also add DOM event listeners
+    interact(document).on("DOMContentLoaded", resizeCanvases);
+    interact(window).on("resize", resizeCanvases);
+
+</script>
+
+</html>
